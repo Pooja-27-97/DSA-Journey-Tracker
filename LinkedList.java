@@ -58,6 +58,71 @@ public class LinkedList {
         temp.next = newNode;
     }
 
+    public int removeFirst() {
+        if(size == 0) {
+            System.out.println("LL is empty");
+            return Integer.MIN_VALUE;
+        } else if (size == 1){
+            int val = head.data;
+            head = tail = null;
+            size = 0;
+            return val;
+        }
+        int val = head.data;
+        head = head.next;
+        size--;
+        return val;
+    }
+
+    public int removeLast() {
+        if(size == 0) {
+            System.out.println("LL is Empty");
+            return Integer.MIN_VALUE;
+        } else if (size == 1) {
+            int val = head.data;
+            head = tail = null;
+            size = 0;
+            return val;
+        }
+
+        Node prev = head;
+        for(int i=0; i < size-2; i++) {
+            prev = prev.next;
+        }
+        int val = prev.next.data;
+        prev.next = null;
+        tail = prev;
+        size--;
+        return val;
+    }
+
+    public int itrSearch(int key) {
+        Node temp = head;
+        int i=0;
+
+        while(temp != null) {
+            if(temp.data == key) {
+                return i;
+            }
+            temp = temp.next;
+            i++;
+        }
+        return -1;
+    }
+
+    public int helper(Node head, int key) {
+        if(head == null) return -1;
+        if(head.data == key) return 0;
+
+        int idx = helper(head.next, key);
+        if(idx == -1) return -1;
+        return idx+1;
+    }
+
+    public int resSearch(int key) {
+        return helper(head, key);
+    }
+
     public void print() {
         // if(head == null) {
         //     System.out.println("Empty");
@@ -80,9 +145,18 @@ public class LinkedList {
         ll.addLast(4);
         ll.addLast(5);
         ll.print();
-        System.out.println(size);
-        ll.add(2, 7);
-        ll.print();
-        System.err.println(size);
+
+        System.out.println(ll.resSearch(4));
+        System.out.println(ll.resSearch(40));
+
+        // System.out.println(ll.removeFirst());
+        // ll.print();
+        // System.out.println(ll.removeLast());
+        // ll.print();
+
+        // System.out.println(size);
+        // ll.add(2, 7);
+        // ll.print();
+        // System.err.println(size);
     }
 }
