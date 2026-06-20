@@ -6,3 +6,4 @@ Day-2: OOPS and Recursion.
 Day-3: Divide & Conquer and Time & space complexity.
 Day-4: Backtracking and Array lists.
 Day-5: Linked List.
+Day-6: Stacks.
