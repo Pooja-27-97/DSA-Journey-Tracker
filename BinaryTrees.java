@@ -68,18 +68,120 @@ public class BinaryTrees {
             }
         }
     }
-    public static void main(String[] args) {
-        int nodes[] = {1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1};
-        BinaryTree tree = new BinaryTree();
-        Node root = tree.buildtree(nodes);
-        // System.out.println(root.data);
 
-        tree.preorder(root);
-        System.out.println();
-        tree.inorder(root);
-        System.out.println();
-        tree.postorder(root);
-        System.out.println();
-        tree.levelorder(root);
+    public static int height(Node root) {
+        if(root == null) return 0;
+        int lh = height(root.left);
+        int rh = height(root.right);
+        return Math.max(lh, rh) + 1;
+    }
+
+    public static int count(Node root) {
+        if(root == null) return 0;
+        int lc = count(root.left);
+        int rc = count(root.right);
+        return (lc+rc) + 1;
+    }
+
+    public static int sum(Node root) {
+        if(root == null) return 0;
+        int ls = sum(root.left);
+        int rs = sum(root.right);
+        return (ls + rs) + root.data;
+    }
+
+    public static int diameter2(Node root) { //O(n^2)
+        if(root == null) return 0;
+        int ld = diameter2(root.left);
+        int rd = diameter2(root.right);
+        int lh = height(root.left);
+        int rh = height(root.left);
+
+        int selfDia = lh + rh + 1;
+
+        return Math.max(selfDia, Math.max(ld, rd));
+    }
+
+    static class Info {
+        int dia;
+        int ht;
+
+        public Info(int dia, int ht) {
+            this.dia =  dia;
+            this.ht = ht;
+        }
+    }
+
+    public static Info diameter(Node root) { // O(n)
+        if(root == null) return new Info(0, 0);
+        Info li = diameter(root.left);
+        Info ri = diameter(root.right);
+
+        int dia = Math.max(Math.max(li.dia, ri.dia), li.ht + ri.ht + 1);
+        int ht = Math.max(li.ht, ri.ht) + 1;
+
+        return new Info(dia, ht);
+    }
+
+    public static boolean isIdentical(Node node, Node subRoot) {
+        if(node == null && subRoot == null) return true;
+        else if(node == null || subRoot == null || node.data != subRoot.data) 
+            return false;
+        if(!isIdentical(node.left, subRoot.left)) return false;
+        if(!isIdentical(node.right, subRoot.right)) return false;
+        return true;
+    }
+
+    public static boolean isSubtree(Node root, Node subRoot) {
+        if(root == null) return false;
+        if(root.data == subRoot.data) {
+            if(isIdentical(root, subRoot)) {
+                return true;
+            }
+        }
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    }
+    public static void main(String[] args) {
+        // int nodes[] = {1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1};
+        // BinaryTree tree = new BinaryTree();
+        // Node root = tree.buildtree(nodes);
+        // // System.out.println(root.data);
+
+        // tree.preorder(root);
+        // System.out.println();
+        // tree.inorder(root);
+        // System.out.println();
+        // tree.postorder(root);
+        // System.out.println();
+        // tree.levelorder(root);
+
+            //     1
+            //    /  \
+            //   2    3
+            //  / \  / \
+            // 4   5 6  7
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+        root.left.right = new Node(5);
+        root.right.left = new Node(6);
+        root.right.right = new Node(7);
+
+        //     2
+        //    / \
+        //   4   5
+
+        Node subRoot = new Node(2);
+        subRoot.left = new Node(4);
+        subRoot.right = new Node(5);
+        System.out.println(isSubtree(root, subRoot));
+
+        // System.out.println(height(root));
+        // System.out.println(count(root));
+        // System.out.println(sum(root));
+        // System.out.println(diameter2(root));
+        // System.out.println(diameter(root).dia);
+        // System.out.println(diameter(root).ht);
     }
 }
