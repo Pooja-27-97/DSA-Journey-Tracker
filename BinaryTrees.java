@@ -26,12 +26,12 @@ public class BinaryTrees {
     //         return newNode;
     //     }
 
-    //     public static void preorder(Node root) {
-    //         if(root == null) return;
-    //         System.out.print(root.data + " ");
-    //         preorder(root.left);
-    //         preorder(root.right);
-    //     }
+        public static void preorder(Node root) {
+            if(root == null) return;
+            System.out.print(root.data + " ");
+            preorder(root.left);
+            preorder(root.right);
+        }
 
     //     public static void inorder(Node root) {
     //         if(root == null) return;
@@ -278,6 +278,18 @@ public class BinaryTrees {
         if(max+1 == k) System.out.println(root.data);
         return max+1;
     }
+
+    public static int transform(Node root) {
+        if(root == null) return 0;
+        int leftChild = transform(root.left);
+        int rightChild = transform(root.right);
+
+        int data = root.data;
+        int newLeft = root.left == null ? 0 : root.left.data;
+        int newRight = root.right == null ? 0 : root.right.data;
+        root.data = newLeft + leftChild + newRight + rightChild;
+        return data;
+    }
     public static void main(String[] args) {
         // int nodes[] = {1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1};
         // BinaryTree tree = new BinaryTree();
@@ -305,8 +317,11 @@ public class BinaryTrees {
         root.right.left = new Node(6);
         root.right.right = new Node(7);
 
-        int n =  5, k = 2;
-        kAncestor(root, n, k);
+        transform(root);
+        preorder(root);
+
+        // int n =  5, k = 2;
+        // kAncestor(root, n, k);
 
         // int n1=4, n2=7;
         // System.out.println(minDist(root, n1, n2));
