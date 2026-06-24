@@ -13,133 +13,178 @@ public class BinaryTrees {
         }
     }
 
-    static class BinaryTree {
-        static int idx = -1;
-        public static Node buildtree(int nodes[]) {
-            idx++;
-            if(nodes[idx] == -1) {
-                return null;
-            }
-            Node newNode = new Node(nodes[idx]);
-            newNode.left = buildtree(nodes);
-            newNode.right = buildtree(nodes);
-            return newNode;
+    // static class BinaryTree {
+    //     static int idx = -1;
+    //     public static Node buildtree(int nodes[]) {
+    //         idx++;
+    //         if(nodes[idx] == -1) {
+    //             return null;
+    //         }
+    //         Node newNode = new Node(nodes[idx]);
+    //         newNode.left = buildtree(nodes);
+    //         newNode.right = buildtree(nodes);
+    //         return newNode;
+    //     }
+
+    //     public static void preorder(Node root) {
+    //         if(root == null) return;
+    //         System.out.print(root.data + " ");
+    //         preorder(root.left);
+    //         preorder(root.right);
+    //     }
+
+    //     public static void inorder(Node root) {
+    //         if(root == null) return;
+    //         inorder(root.left);
+    //         System.out.print(root.data + " ");
+    //         inorder(root.right);
+    //     }
+
+    //     public static void postorder(Node root) {
+    //         if(root == null) return;
+    //         postorder(root.left);
+    //         postorder(root.right);
+    //         System.out.print(root.data + " ");
+    //     }
+
+    //     public static void levelorder(Node root) {
+    //         if(root == null) return;
+
+    //         Queue<Node> q = new LinkedList<>();
+    //         q.add(root);
+    //         q.add(null);
+
+    //         while(!q.isEmpty()) {
+    //             Node currNode = q.remove();
+    //             if(currNode == null) {
+    //                 System.out.println();
+    //                 if(q.isEmpty()) break;
+    //                 else q.add(null);
+    //             } else {
+    //                 System.out.print(currNode.data + " ");
+    //                 if(currNode.left != null) q.add(currNode.left);
+    //                 if(currNode.right != null) q.add(currNode.right);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // public static int height(Node root) {
+    //     if(root == null) return 0;
+    //     int lh = height(root.left);
+    //     int rh = height(root.right);
+    //     return Math.max(lh, rh) + 1;
+    // }
+
+    // public static int count(Node root) {
+    //     if(root == null) return 0;
+    //     int lc = count(root.left);
+    //     int rc = count(root.right);
+    //     return (lc+rc) + 1;
+    // }
+
+    // public static int sum(Node root) {
+    //     if(root == null) return 0;
+    //     int ls = sum(root.left);
+    //     int rs = sum(root.right);
+    //     return (ls + rs) + root.data;
+    // }
+
+    // public static int diameter2(Node root) { //O(n^2)
+    //     if(root == null) return 0;
+    //     int ld = diameter2(root.left);
+    //     int rd = diameter2(root.right);
+    //     int lh = height(root.left);
+    //     int rh = height(root.left);
+
+    //     int selfDia = lh + rh + 1;
+
+    //     return Math.max(selfDia, Math.max(ld, rd));
+    // }
+
+    // static class Info {
+    //     int dia;
+    //     int ht;
+
+    //     public Info(int dia, int ht) {
+    //         this.dia =  dia;
+    //         this.ht = ht;
+    //     }
+    // }
+
+    // public static Info diameter(Node root) { // O(n)
+    //     if(root == null) return new Info(0, 0);
+    //     Info li = diameter(root.left);
+    //     Info ri = diameter(root.right);
+
+    //     int dia = Math.max(Math.max(li.dia, ri.dia), li.ht + ri.ht + 1);
+    //     int ht = Math.max(li.ht, ri.ht) + 1;
+
+    //     return new Info(dia, ht);
+    // }
+
+    // public static boolean isIdentical(Node node, Node subRoot) {
+    //     if(node == null && subRoot == null) return true;
+    //     else if(node == null || subRoot == null || node.data != subRoot.data) 
+    //         return false;
+    //     if(!isIdentical(node.left, subRoot.left)) return false;
+    //     if(!isIdentical(node.right, subRoot.right)) return false;
+    //     return true;
+    // }
+
+    // public static boolean isSubtree(Node root, Node subRoot) {
+    //     if(root == null) return false;
+    //     if(root.data == subRoot.data) {
+    //         if(isIdentical(root, subRoot)) {
+    //             return true;
+    //         }
+    //     }
+    //     return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    // }
+
+    static class Info {
+        Node node;
+        int hd;
+
+        public Info(Node node, int hd) {
+            this.node = node;
+            this.hd = hd;
         }
+    }
 
-        public static void preorder(Node root) {
-            if(root == null) return;
-            System.out.print(root.data + " ");
-            preorder(root.left);
-            preorder(root.right);
-        }
+    public static void topView(Node root) {
+        Queue<Info> q = new LinkedList<>();
+        HashMap<Integer, Node> map = new HashMap<>();
 
-        public static void inorder(Node root) {
-            if(root == null) return;
-            inorder(root.left);
-            System.out.print(root.data + " ");
-            inorder(root.right);
-        }
+        int min=0, max =0;
+        q.add(new Info(root, 0));
+        q.add(null);
 
-        public static void postorder(Node root) {
-            if(root == null) return;
-            postorder(root.left);
-            postorder(root.right);
-            System.out.print(root.data + " ");
-        }
+        while(!q.isEmpty()) {
+            Info curr = q.remove();
+            if(curr == null) {
+                if(q.isEmpty()) break;
+                else q.add(null);
+            } else {
+                if(!map.containsKey(curr.hd)) { // 1st apperance
+                    map.put(curr.hd, curr.node);
+                }
 
-        public static void levelorder(Node root) {
-            if(root == null) return;
+                if(curr.node.left != null) {
+                    q.add(new Info(curr.node.left, curr.hd-1));
+                    min = Math.min(min, curr.hd-1);
+                }
 
-            Queue<Node> q = new LinkedList<>();
-            q.add(root);
-            q.add(null);
-
-            while(!q.isEmpty()) {
-                Node currNode = q.remove();
-                if(currNode == null) {
-                    System.out.println();
-                    if(q.isEmpty()) break;
-                    else q.add(null);
-                } else {
-                    System.out.print(currNode.data + " ");
-                    if(currNode.left != null) q.add(currNode.left);
-                    if(currNode.right != null) q.add(currNode.right);
+                if(curr.node.right != null) {
+                    q.add(new Info(curr.node.right, curr.hd+1));
+                    max = Math.max(max, curr.hd+1);
                 }
             }
         }
-    }
-
-    public static int height(Node root) {
-        if(root == null) return 0;
-        int lh = height(root.left);
-        int rh = height(root.right);
-        return Math.max(lh, rh) + 1;
-    }
-
-    public static int count(Node root) {
-        if(root == null) return 0;
-        int lc = count(root.left);
-        int rc = count(root.right);
-        return (lc+rc) + 1;
-    }
-
-    public static int sum(Node root) {
-        if(root == null) return 0;
-        int ls = sum(root.left);
-        int rs = sum(root.right);
-        return (ls + rs) + root.data;
-    }
-
-    public static int diameter2(Node root) { //O(n^2)
-        if(root == null) return 0;
-        int ld = diameter2(root.left);
-        int rd = diameter2(root.right);
-        int lh = height(root.left);
-        int rh = height(root.left);
-
-        int selfDia = lh + rh + 1;
-
-        return Math.max(selfDia, Math.max(ld, rd));
-    }
-
-    static class Info {
-        int dia;
-        int ht;
-
-        public Info(int dia, int ht) {
-            this.dia =  dia;
-            this.ht = ht;
+        for(int i=min; i <= max; i++) {
+            System.out.print(map.get(i).data + " ");
         }
-    }
-
-    public static Info diameter(Node root) { // O(n)
-        if(root == null) return new Info(0, 0);
-        Info li = diameter(root.left);
-        Info ri = diameter(root.right);
-
-        int dia = Math.max(Math.max(li.dia, ri.dia), li.ht + ri.ht + 1);
-        int ht = Math.max(li.ht, ri.ht) + 1;
-
-        return new Info(dia, ht);
-    }
-
-    public static boolean isIdentical(Node node, Node subRoot) {
-        if(node == null && subRoot == null) return true;
-        else if(node == null || subRoot == null || node.data != subRoot.data) 
-            return false;
-        if(!isIdentical(node.left, subRoot.left)) return false;
-        if(!isIdentical(node.right, subRoot.right)) return false;
-        return true;
-    }
-
-    public static boolean isSubtree(Node root, Node subRoot) {
-        if(root == null) return false;
-        if(root.data == subRoot.data) {
-            if(isIdentical(root, subRoot)) {
-                return true;
-            }
-        }
-        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+        System.out.println();
     }
     public static void main(String[] args) {
         // int nodes[] = {1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6, -1, -1};
@@ -167,16 +212,17 @@ public class BinaryTrees {
         root.left.right = new Node(5);
         root.right.left = new Node(6);
         root.right.right = new Node(7);
+        topView(root);
 
         //     2
         //    / \
         //   4   5
 
-        Node subRoot = new Node(2);
-        subRoot.left = new Node(4);
-        // subRoot.left = new Node(9);
-        subRoot.right = new Node(5);
-        System.out.println(isSubtree(root, subRoot));
+        // Node subRoot = new Node(2);
+        // subRoot.left = new Node(4);
+        // // subRoot.left = new Node(9);
+        // subRoot.right = new Node(5);
+        // System.out.println(isSubtree(root, subRoot));
 
         // System.out.println(height(root));
         // System.out.println(count(root));
