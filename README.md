@@ -8,3 +8,4 @@ Day-4: Backtracking and Array lists.
 Day-5: Linked List.
 Day-6: Stacks.
 Day-7: Queues.
+Day-8: Greedy Algorithm.
