@@ -5,9 +5,19 @@ public class HashMaps {
 
         //Insert
         hm.put("Naruto", 5);
-        hm.put("JJK", 5);
+        hm.put("JJK", 2);
         hm.put("AOT", 4);
-        System.out.println(hm);
+        hm.put("Spy*Family", 5);
+        hm.put("One Piece", 3);
+        // System.out.println(hm);
+
+        //iterate
+        Set<String> keys = hm.keySet();
+        System.out.println(keys);
+
+        for (String k : keys) {
+            System.out.println("Key=" + k + ", Value=" + hm.get(k));
+        }
 
         // //size
         // System.out.println(hm.size());
