@@ -68,6 +68,7 @@ public class HeapOperations {
 
         while(!pq.isEmpty()) { //heap sort - O(n logn)
             System.out.println(pq.peek());
+            
             pq.remove();
         }
     }
