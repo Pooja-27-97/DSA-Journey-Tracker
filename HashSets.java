@@ -7,15 +7,32 @@ public class HashSets {
         animes.add("Spy*Family");
         animes.add("Demon Slayer");
         animes.add("One Piece");
+        System.out.println(animes);
+
+        LinkedHashSet<String> lhs = new LinkedHashSet<>();
+        lhs.add("Naruto");
+        lhs.add("JJK");
+        lhs.add("Spy*Family");
+        lhs.add("Demon Slayer");
+        lhs.add("One Piece");
+        System.out.println(lhs);
+
+        TreeSet<String> ts = new TreeSet<>();
+        ts.add("Naruto");
+        ts.add("JJK");
+        ts.add("Spy*Family");
+        ts.add("Demon Slayer");
+        ts.add("One Piece");
+        System.out.println(ts);
 
         // Iterator it = animes.iterator();
         // while(it.hasNext()) {
         //     System.out.println(it.next());
         // }
 
-        for (String anime : animes) {
-            System.out.println(anime);
-        }
+        // for (String anime : animes) {
+        //     System.out.println(anime);
+        // }
 
         // HashSet<Integer> set = new HashSet<>();
 
