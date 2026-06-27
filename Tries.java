@@ -31,7 +31,7 @@ public class Tries {
             }
             curr = curr.children[idx];
         }
-        return curr.eow = true;
+        return curr.eow;
     }
 
     public static boolean wordBreak(String key) {
@@ -45,7 +45,73 @@ public class Tries {
         return false;
     }
 
+    public static boolean startsWith(String prefix) {
+        Node curr = root;
+        for(int i=0; i < prefix.length(); i++) {
+            int idx = prefix.charAt(i) - 'a';
+            if(curr.children[idx] == null) {
+                return false;
+            }
+            curr = curr.children[idx];
+        }
+        return true;
+    }
+
+    public static int countNodes(Node root) {
+        if(root == null) return 0;
+        int count = 0;
+        for(int i=0; i < 26; i++) {
+            count += countNodes(root.children[i]);
+        }
+        return count + 1;
+    }
+
+    public static String ans = "";
+
+    public static void longestWord(Node root, StringBuilder temp) {
+        if (root == null) return;
+        for (int i = 0; i < 26; i++) {
+            if (root.children[i] != null && root.children[i].eow) {
+                char ch = (char)(i + 'a');
+                temp.append(ch);
+
+                if (temp.length() > ans.length()) {
+                    ans = temp.toString();
+                }
+
+                // Only recurse if this node marks a valid word
+                longestWord(root.children[i], temp);
+
+                temp.deleteCharAt(temp.length() - 1);
+            }
+        }
+    }
     public static void main(String[] args) {
+        String words[] = {"a", "banana", "app", "appl", "apply", "apple"};
+        for(int i=0; i < words.length; i++) {
+            insert(words[i]);
+        }
+        longestWord(root, new StringBuilder(""));
+        System.out.println(ans);
+
+        // String str = "ababa";
+        // //suffix
+        // for(int i=0; i < str.length(); i++) {
+        //     String suffix = str.substring(i);
+        //     insert(suffix);
+        // }
+        // System.out.println(countNodes(root));
+
+        // String words[] = {"apple", "app", "mango", "man", "woman"};
+        // String prefix1 = "app";
+        // String prefix2 = "moon";
+
+        // for(int i=0; i < words.length; i++) {
+        //     insert(words[i]);
+        // }
+        // System.out.println(startsWith(prefix2));
+        // System.out.println(startsWith(prefix1));
+
         // String arr[] = {"i", "like", "sam", "samsung", "mobile", "ice"};
         // for(int i=0; i < arr.length; i++) {
         //     insert(arr[i]);
