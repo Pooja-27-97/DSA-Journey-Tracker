@@ -51,12 +51,27 @@ public class Graphs {
             }
         }
     }
+
+    public static void dfs(ArrayList<Edge> graph[], int curr, boolean vis[]) {
+        System.out.print(curr + " ");
+        vis[curr] = true;
+
+        for(int i=0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if(!vis[e.dest]) {
+                dfs(graph, e.dest, vis);
+            }
+        }
+    }
     public static void main(String[] args) {
         int v = 5;
-        ArrayList<Edge>[] graph = new ArrayList[v]; //null stored -> empty
+        ArrayList<Edge> graph[] = new ArrayList[v]; //null stored -> empty
 
         createGraph(graph);
-        bfs(graph);
+        // bfs(graph);
+        boolean[] vis = new boolean[v]; 
+        dfs(graph, 0, vis);
+        
         // for(int i=0; i < graph[2].size(); i++) {
         //     Edge e = graph[2].get(i);
         //     System.out.println(e.dest);
