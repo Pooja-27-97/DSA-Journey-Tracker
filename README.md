@@ -12,3 +12,4 @@ Day-8: Greedy Algorithm.
 Day-9: Binary trees.
 Day-10: Binary Search tree.
 Day-11: Heaps.
+Day-12: Tries.
